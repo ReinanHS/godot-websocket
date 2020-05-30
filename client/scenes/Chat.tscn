@@ -1,0 +1,66 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scripts/Chat.gd" type="Script" id=1]
+[ext_resource path="res://scripts/Chat/ChatLog.gd" type="Script" id=2]
+[ext_resource path="res://scripts/Chat/PeerList.gd" type="Script" id=3]
+[ext_resource path="res://scripts/Network.gd" type="Script" id=4]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color( 0.34902, 0.34902, 0.34902, 1 )
+margin_right = 750.0
+margin_bottom = 553.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ChatLog" type="RichTextLabel" parent="."]
+margin_left = 15.0
+margin_top = 13.0
+margin_right = 740.0
+margin_bottom = 543.0
+text = "
+"
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PeerList" type="ItemList" parent="."]
+margin_left = 750.0
+margin_right = 1024.0
+margin_bottom = 554.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ChatTextBox" type="LineEdit" parent="."]
+margin_left = -1.0
+margin_top = 554.0
+margin_right = 901.0
+margin_bottom = 599.0
+placeholder_text = "Digite aqui para conversar..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SendButton" type="Button" parent="."]
+margin_left = 902.0
+margin_top = 555.0
+margin_right = 1024.0
+margin_bottom = 599.0
+text = "Enviar"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Network" type="Node" parent="."]
+script = ExtResource( 4 )

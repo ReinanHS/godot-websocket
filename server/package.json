@@ -1,0 +1,26 @@
+{
+  "name": "gd-com-websocket-basic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node -r @std/esm -r @babel/register -r @babel/polyfill index.mjs"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/core": "^7.0.0-beta.42",
+    "@babel/polyfill": "^7.0.0-beta.42",
+    "@babel/preset-env": "^7.0.0-beta.42",
+    "@babel/preset-react": "^7.0.0-beta.42",
+    "@babel/preset-stage-3": "^7.0.0-beta.42",
+    "@babel/register": "^7.0.0-beta.42",
+    "@gd-com/utils": "^4.1.0",
+    "@std/esm": "^0.26.0",
+    "app-root-path": "^3.0.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "ws": "^6.1.3"
+  }
+}
