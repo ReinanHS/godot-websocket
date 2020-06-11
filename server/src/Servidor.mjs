@@ -96,17 +96,15 @@ export default class Servidor extends Bootstrap {
    * @param {object} reason - Razão pela qual o jogador se descontou do servidor
    */
   OnPlayerDisconnect(player, reason){
-
     if(CLIENTS.length > 1){
-      for(let i = CLIENTS.length-1; i--;){
+      for(let i = CLIENTS.length; i--;){
         if(CLIENTS[i].id == player.id) {
-          CLIENTS[i] = CLIENTS[CLIENTS.length-1]
-          CLIENTS = CLIENTS.splice(0, CLIENTS.length-1)
+          CLIENTS.splice(i, 1);
           break
         }
       }
     }else CLIENTS = []
-
+    
     const message = `[SERVER] ${player.username} foi desconectado do servidor` 
     this.showLog(message, true)
     this.SendClientMessageToAll(message)
