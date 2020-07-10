@@ -1,26 +1,29 @@
 {
-  "name": "gd-com-websocket-basic",
+  "name": "webpack-test",
   "version": "1.0.0",
   "description": "",
-  "main": "index.mjs",
+  "main": "./src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node -r @std/esm -r @babel/register -r @babel/polyfill index.mjs"
+    "start": "babel-node ./src/index.js"
   },
-  "author": "",
-  "license": "MIT",
+  "author": "reinanhs",
+  "license": "ISC",
   "dependencies": {
-    "@babel/core": "^7.0.0-beta.42",
-    "@babel/polyfill": "^7.0.0-beta.42",
-    "@babel/preset-env": "^7.0.0-beta.42",
-    "@babel/preset-react": "^7.0.0-beta.42",
-    "@babel/preset-stage-3": "^7.0.0-beta.42",
-    "@babel/register": "^7.0.0-beta.42",
     "@gd-com/utils": "^4.1.0",
-    "@std/esm": "^0.26.0",
     "app-root-path": "^3.0.0",
+    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "ws": "^6.1.3"
+    "local-ipv4-address": "0.0.2",
+    "ws": "^7.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/node": "^7.10.1",
+    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/plugin-transform-arrow-functions": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "babel-loader": "^8.1.0",
+    "babel-minify-webpack-plugin": "^0.3.1",
+    "babel-plugin-module-resolver": "^4.0.0"
   }
 }
