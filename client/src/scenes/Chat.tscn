@@ -1,0 +1,54 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/scripts/Chat.gd" type="Script" id=1]
+
+[node name="Chat" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 1.0
+margin_right = -678.0
+margin_bottom = -421.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+modulate = Color( 1, 1, 1, 0.588235 )
+margin_top = -1.0
+margin_right = 384.0
+margin_bottom = 190.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="log" type="RichTextLabel" parent="Panel"]
+margin_right = 384.0
+margin_bottom = 193.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="input_text" type="LineEdit" parent="Panel"]
+margin_top = 192.0
+margin_right = 320.0
+margin_bottom = 216.0
+placeholder_text = "Digite a mensagem que você desejá enviar"
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_submit" type="Button" parent="Panel"]
+margin_left = 320.0
+margin_top = 192.0
+margin_right = 384.0
+margin_bottom = 216.0
+text = "Enviar"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="Panel/btn_submit" to="." method="_on_btn_submit_pressed"]

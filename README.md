@@ -1,6 +1,6 @@
 # Godot Websocket
 
-Esse é um projeto de um bate papo em tempo real feito na Godot.
+Este é um jogo de plataforma online feito na Godot 3.
 
 ## Como instalar
 
@@ -25,5 +25,5 @@ Agora abra o projeto client na sua godot
 
 ## Imagens
 
-![Godot webbsocket](https://i.imgur.com/Z1G6WYu.jpg)
-![Godot webbsocket javascript](https://i.imgur.com/Au2PvcA.jpg)
+![Godot webbsocket](https://i.imgur.com/4pdBQ4d.jpg)
+![Godot webbsocket javascript](https://i.imgur.com/7qp5zOl.jpg)
