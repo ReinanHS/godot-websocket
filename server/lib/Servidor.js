@@ -37,6 +37,8 @@ export default class Servidor extends Bootstrap{
 
     this.showLog(`> Iniciando o servidor`, true)
     this.onServerInit()
+
+    global.eventServer.emit('onServerInit');
   }
 
   onServerInit = () => {
@@ -183,7 +185,7 @@ export default class Servidor extends Bootstrap{
    */
   onPlayerConnect = (player) => {
     this.sendClientMessageToAll(`${player.getUsername()} entrou no jogo!`, '#fcbf1e')
-    return 1
+    return global.eventServer.emit('onPlayerConnect', player);
   }
 
   /**
@@ -193,7 +195,7 @@ export default class Servidor extends Bootstrap{
    */
   onPlayerDisconnect = (player, reason) => {
     this.sendClientMessageToAll(`${player.getUsername()} saiu do jogo!`, '#fcbf1e')
-    return 1
+    return global.eventServer.emit('onPlayerDisconnect', player, reason);
   }
 
   /**
@@ -205,17 +207,20 @@ export default class Servidor extends Bootstrap{
     player.setPos(result.position.x, result.position.y, 0)
     this.slots.clients[player.getId()] = player
 
+    const data = {
+      type: 'updatePost',
+      position: player.getPos(),
+      animation: result.animation,
+      flip: result.flip,
+      id: player.getId(),
+    }
+
+    global.eventServer.emit('onPlayerUpdate', player, data);
+
     this.slots.map((client) => {
       if(client.getId() != player.getId() && client.getConnection().readyState === WebSocket.OPEN){
         try {
-          client.getConnection().send(JSON.stringify({
-            type: 'updatePost',
-            position: player.getPos(),
-            animation: result.animation,
-            flip: result.flip,
-            id: player.getId(),
-          }))
-        
+          client.getConnection().send(JSON.stringify(data))
         } catch (error) {
           return this.showLog(`> Ocorreu um erro ao atualizar a posição do jogador: ${error.message}`, true)
         }
@@ -229,6 +234,7 @@ export default class Servidor extends Bootstrap{
    * @param  {String} text Mensagem enviada pelo player
    */
   onPlayerText = (player, text) => {
+    global.eventServer.emit('onPlayerText', player, text);
     return this.sendClientMessageToAll(`${player.getUsername()}: ${text}`)
   }
 
@@ -238,6 +244,9 @@ export default class Servidor extends Bootstrap{
    * @param  {Array<String>} cmdtext O comando que foi inserido (incluindo a barra).
    */
   onPlayerCommandText = (player, cmdtext = []) => {
+
+    global.eventServer.emit('onPlayerCommandText', player, cmdtext);
+
     if(cmdtext[0] == '/help'){
       return this.sendClientMessage(player,`> Comando de ajuda`)
     }
@@ -251,6 +260,8 @@ export default class Servidor extends Bootstrap{
     const skin = Math.floor(Math.random() * (4 - 1 + 1)) + 1
 
     this.spawnPlayer(player, {x: 0, y: 0}, skin, true)
+
+    global.eventServer.emit('onClientGameTypeStart', player);
 
     if(this.slots.length > 1){
       try {
