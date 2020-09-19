@@ -1,6 +1,7 @@
 export default () => {
 
   const event = global.eventServer
+  const DIALOG_MENU = 1
   
   /**
    * Este Evento é chamado quando o Servidor é iniciado.
@@ -42,8 +43,28 @@ export default () => {
    */
   event.on('onPlayerCommandText', (player, cmd) => {
     // Lógica para fazer o tratamento do evento
+    if(cmd[0] == '/menu'){
+      return event.emit('showPlayerDialog', player, DIALOG_MENU, 'box', 'Menu principal', 'Como você está hoje?', 'Estou bem', 'Estou mal')
+    }
   })
 
+  /**
+   * Este retorno de chamada é chamado quando um jogador responde a uma caixa de diálogo mostrada usando ShowPlayerDialog
+   * @param {Player} player Jogador que digitou o comando
+   * @param {Number} dialogid O ID do diálogo ao qual o jogador respondeu, atribuído em showPlayerDialog.
+   * @param {Number} response 1 para o botão esquerdo e 0 para o botão direito
+   * @param {number} listitem O ID do item da lista selecionado pelo jogador
+   * @param {String} inputtext O texto inserido na caixa de entrada pelo player ou o texto do item da lista selecionado.
+   */
+  event.on('onDialogResponse', (player, dialogid, response, listitem, inputtext) => {
+    if(dialogid == DIALOG_MENU){
+      const respostas = [
+        'bem',
+        'mal',
+      ]
+      return event.emit('sendClientMessage', player, `Sua resposta foi ${respostas[response]}`)
+    }
+  })
 
   /**
    * Este Evento é chamado quando o game do cliente é iniciado.

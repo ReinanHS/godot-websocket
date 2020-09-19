@@ -1,6 +1,7 @@
 extends Node2D
 
 onready var chat = get_node("CanvasLayer/Chat")
+onready var dialog = get_node("CanvasLayer/Dialog")
 var ws = WebSocketClient.new()
 
 const PlayerChild = preload("res://src/scenes/Player.tscn")
@@ -62,6 +63,19 @@ func _client_received():
 	
 	if resultJSON.result.type == 'message':
 		return chat.append_text(resultJSON.result.message, resultJSON.result.color)
+	elif resultJSON.result.type == 'showPlayerDialog':
+		dialog._hide_dialog()
+		
+		dialog.dialogid = resultJSON.result.dialogid
+		dialog.style = resultJSON.result.style
+		
+		dialog.button1.text = resultJSON.result.button1
+		dialog.button2.text = resultJSON.result.button2
+		
+		dialog._set_caption(resultJSON.result.caption)
+		dialog._set_info(resultJSON.result.info)
+		
+		dialog._show_dialog()
 	elif resultJSON.result.type == 'spawnPlayer':
 		
 		var client = PlayerChild.instance()
@@ -112,6 +126,20 @@ func _on_Player_updatePlayer(position, current_animation, flip):
 				"position": position,
 				"animation": current_animation,
 				"flip": flip
+			}
+		})
+	pass
+
+
+func _on_Dialog_dialogResponse(dialogid, response, listitem, inputtext):
+	if ws.get_peer(1).is_connected_to_host():
+		ws.get_peer(1).put_var({
+			"type": 'onDialogResponse',
+			"data": {
+				"dialogid": dialogid,
+				"response": response,
+				"listitem": listitem,
+				"inputtext": inputtext,
 			}
 		})
 	pass

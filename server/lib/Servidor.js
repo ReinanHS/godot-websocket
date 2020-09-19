@@ -65,6 +65,9 @@ export default class Servidor extends Bootstrap{
             return this.onPlayerText(player, message)
           }else if(recieve.value.type == 'onPlayerUpdate'){
             return this.onPlayerUpdate(player, recieve.value.data)
+          }else if(recieve.value.type == 'onDialogResponse'){
+            const response = recieve.value.data
+            return this.onDialogResponse(player, response.dialogid, response.response, response.listitem, response.inputtext)
           }
 
         } catch (error) {
@@ -319,5 +322,47 @@ export default class Servidor extends Bootstrap{
         return this.showLog(`Ocorreu um erro ao criar o player: ${error.message}`, true)
       }
     }
+  }
+
+  /**
+   * Mostra ao jogador uma caixa de diálogo síncrona (apenas uma de cada vez).
+   * @param  {Player} player jogador 
+   * @param  {Number} dialogid Um ID para atribuir a esta caixa de diálogo, para que as respostas possam ser processadas.
+   * @param  {String} style O estilo da dialog.
+   * @param  {String} caption O título na parte superior da caixa de diálogo. O comprimento da legenda não pode exceder mais de 64 caracteres antes de começar a ser cortada.
+   * @param  {String} info O texto a ser exibido na caixa de diálogo principal.
+   * @param  {String} button1 O texto do botão esquerdo.
+   * @param  {String} button2 O texto do botão direito.
+   */
+  showPlayerDialog = (player, dialogid, style, caption, info, button1 = '', button2 = '') => {
+    const ws = player.getConnection()
+    if (ws.readyState === WebSocket.OPEN) {
+      try {
+        ws.send(JSON.stringify({
+          type: 'showPlayerDialog',
+          dialogid: dialogid,
+          style: style,
+          caption: caption,
+          info: info,
+          button1: button1,
+          button2: button2,
+        }))
+      
+      } catch (error) {
+        return this.showLog(`Ocorreu um erro ao exibir a caixa de diálogo : ${error.message}`, true)
+      }
+    }
+  }
+
+  /**
+   * Este retorno de chamada é chamado quando um jogador responde a uma caixa de diálogo exibida usando ShowPlayerDialog clicando em um botão.
+   * @param  {Player} player jogador 
+   * @param  {Number} dialogid O ID do diálogo ao qual o jogador respondeu, atribuído em ShowPlayerDialog.
+   * @param  {Number} response 1 para o botão esquerdo e 0 para o botão direito (se apenas um botão for mostrado, sempre 1).
+   * @param  {Number} listitem O ID do item da lista selecionado pelo jogador (começa em 0)
+   * @param  {String} inputtext O texto inserido na caixa de entrada pelo player ou o texto do item da lista selecionado.
+   */
+  onDialogResponse = (player, dialogid, response, listitem = 0, inputtext = '') => {
+    global.eventServer.emit('onDialogResponse', player, dialogid, response, listitem, inputtext);
   }
 }

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/backgroundDesert.png" type="Texture" id=1]
 [ext_resource path="res://src/scenes/Chat.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/tiles/map.tres" type="TileSet" id=3]
+[ext_resource path="res://src/scenes/Dialog.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/scripts/Networking.gd" type="Script" id=5]
 
 [node name="Game" type="Node2D"]
@@ -44,4 +45,7 @@ margin_left = 4.24268
 margin_top = 1.41422
 margin_right = 4.24268
 margin_bottom = 1.41422
+
+[node name="Dialog" parent="CanvasLayer" instance=ExtResource( 4 )]
 [connection signal="seedMessage" from="CanvasLayer/Chat" to="." method="_on_Chat_seedMessage"]
+[connection signal="dialogResponse" from="CanvasLayer/Dialog" to="." method="_on_Dialog_dialogResponse"]

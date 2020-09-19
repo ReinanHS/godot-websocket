@@ -13,5 +13,9 @@ global.eventServer.on('sendClientMessageToAll', (text, color) => {
   return server.sendClientMessageToAll(text, color)
 });
 
+global.eventServer.on('showPlayerDialog', (player, dialogid, style, caption, info, button1, button2) => {
+  return server.showPlayerDialog(player, dialogid, style, caption, info, button1, button2)
+});
+
 import PluginLoad from './plugins'
 PluginLoad()
